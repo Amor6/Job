@@ -45,5 +45,35 @@ class HeadHunter(Engine):
 
         """Класс для работы с HH"""
 
+class SuperJob(Engine):
+
+    def get_vacancies(self, search_query, salary_min=None, salary_max=None):
+
+        url = "https://api.superjob.ru/2.33/vacancies"
+        headers = {"X-Api-App-Id": api_key}
+        params = {"keyword": search_query, "count": 100}
+
+        response = requests.get(url, headers=headers, params=params)
+        data = response.json()
+
+        if response.status_code == 200:
+            vacancies = []
+            for item in data["objects"]:
+                title = item["profession"]
+                link = item["link"]
+                salary = item["payment_from"] if item.get("payment_from") else "Зарплата не указана"
+                description = " ".join([
+                    "Образование: " + item.get("education", {}).get("title", "") + ".",
+                    "Опыт: " + item.get("experience", {}).get("title", "") + ".",
+                    "Место работы: " + item.get("place_of_work", {}).get("title", "") + ".",
+                    "Режим работы: " + item.get("type_of_work", {}).get("title", "") + "."
+                ])
+
+                vacancy = Vacancy(title, link, salary, description)
+                vacancies.append(vacancy)
+
+            return vacancies
+
+    """Класс для работы с SJ"""
 
 
