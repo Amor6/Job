@@ -76,4 +76,22 @@ class SuperJob(Engine):
 
     """Класс для работы с SJ"""
 
+class Vacancy:
 
+    def __init__(self, title, link, salary, description):
+        self.title = title
+        self.link = link
+        self.salary = salary
+        self.description = description
+
+        """Класс c информацией о вакансии."""
+
+    def __str__(self):
+
+        if self.description:
+            return f"Название вакансии: {self.title}\nСсылка: {self.link}\nОплата: {self.salary}\nОписание: {self.description}"
+        else:
+            return f"Название вакансии: {self.title}\nСсылка: {self.link}\nОплата: {self.salary}\n" \
+                   f"Описание: Описание вакансии отсутствует"
+
+    """Представление информации о вакансии"""
