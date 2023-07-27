@@ -1,32 +1,29 @@
-from classe import HeadHunter, SuperJob, Connector
+from classe import SuperJob, HeadHunter
+def user_search():
+    """
+    Функция для взаимодействия с пользователем.
+    """
+    search_query = input("Название вакансии: ")
+    salary_min = input("Минимальная оплата труда: ")
+    salary_max = input("Максимальная оплата труда: ")
+
+    hh = HeadHunter()
+    sj = SuperJob()
+
+    vacancies_hh = hh.get_vacancies(search_query, salary_min=salary_min,
+                                    salary_max=salary_max)
+    vacancies_sj = sj.get_vacancies(search_query, salary_min=salary_min, salary_max=salary_max)
+    print("\nРезультат по поиску HeadHunter:")
+    for vacancy in vacancies_hh:
+        print(vacancy)
+        print()
+
+    print("Результат по сайту SuperJob:")
+    for vacancy in vacancies_sj:
+        print(vacancy)
+        print()
 
 
-def main():
-    vacancies_job = []
-    # search - Поиск по интересующей вакансии соискателя
-    search = "Python"
-
-    hh = HeadHunter(search)
-    sj = SuperJob(search)
-    for api in (sj, hh):
-        api.get_vacancies(pages_count=10)
-        vacancies_job.extend(api.get_formatted_vacancies())
-
-    connector = Connector(search=search, vacancies_job=vacancies_job)
-#
-    while True:
-        command = input("list - Показать список вакансий.\n"
-                        "paymentmin - Сортировка по минимальной оплате\n"
-                        "esc - Выход"
-                        )
-
-        if command.lower() == "esc":
-            break
-        elif command.lower() == "list":
-            vacancies = connector.select
-        elif command.lower() == "paymentmin":
-            vacancies = connector.sorty_by_slary_from()
-
-        for vacancy in vacancies:
-            print(vacancy, end="\n")
+if __name__ == "__main__":
+    user_search()
 
